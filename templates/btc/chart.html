@@ -13,7 +13,9 @@
         <h2 class="text-center">Bitcoin price change over *** to ***</h2>
     </div>
 
-      {% for date,price in price.bpi.items %}
+
+
+      {% for date,price in price.items %}
       <input type="hidden" class="date-item" value="{{date}}">
       <input type="hidden" class="price-item" value="{{price}}">
       {% endfor %}
