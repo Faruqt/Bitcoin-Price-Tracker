@@ -15,11 +15,15 @@
 form{
     margin-bottom: 2rem;
 }
+input{
+    cursor: pointer;
+}
+.btn{
+    margin-top: 0 !important;
+}
 @media (max-width: 760px) {
     .form-control{
         width: 100%;
     }
 }
-input{
-    cursor: pointer;
-}
+
