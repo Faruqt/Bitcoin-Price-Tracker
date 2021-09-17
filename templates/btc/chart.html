@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
 <!--  -->
 
 {% block title %}
@@ -9,11 +10,19 @@
 {% block content %}
 <div class="col-md-6 col-auto">
   <div class="card">
-    <div class="card-header">
+    
+
+      <form action="" method='POST'>
+
+        {% csrf_token %}
+        {{search_form| crispy}}
+
+        <button type="submit" class="btn btn-primary mt-3">search</button>
+      </form>
+
+      <div class="card-header">
         <h2 class="text-center">Bitcoin price change over *** to ***</h2>
-    </div>
-
-
+      </div>
 
       {% for date,price in price.items %}
       <input type="hidden" class="date-item" value="{{date}}">
