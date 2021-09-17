@@ -12,19 +12,21 @@
     <div class="card-header">
         <h2 class="text-center">Bitcoin price change over *** to ***</h2>
     </div>
-    <!-- <ul class="list-group list-group-flush"> -->
+
       {% for date,price in price.bpi.items %}
+      <input type="hidden" class="date-item" value="{{date}}">
+      <input type="hidden" class="price-item" value="{{price}}">
+      {% endfor %}
 
       <canvas id="myChart" width="400" height="400">
-        <li class="list-group-item">{{date}}:{{price}}</li>
+      
       </canvas>
 
-      <!-- <li class="list-group-item">{{date}}:{{price}}</li> -->
-
-      {% endfor %}
-    <!-- </ul> -->
   </div>
 </div>
 
-<script src="{% static 'chart.js' %}"></script>
 {% endblock content %}
+
+{% block script %}
+<script src="{% static 'chart.js' %}"></script>
+{% endblock script %}
