@@ -10,7 +10,7 @@ def chart(request):
     length= None
     filtered_price = {} #declare empty dict to hold filtered price
     
-    response = requests.get('https://api.coindesk.com/v1/bpi/historical/close.json?start=2021-09-08&end=2021-09-17&index=[USD]') #get api respnse data from coindesk
+    response = requests.get('https://api.coindesk.com/v1/bpi/historical/close.json?start=2021-09-07&end=2021-09-17&index=[USD]') #get api respnse data from coindesk
     prices = response.json() #convert response to json format
     bitcoin_price=prices.get("bpi") #filter prices based on "bpi" values only
 
