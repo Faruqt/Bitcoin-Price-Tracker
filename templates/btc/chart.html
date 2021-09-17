@@ -1,49 +1,51 @@
 {% extends "base.html" %}
 {% load static %}
 {% load crispy_forms_tags %}
-<!--  -->
 
 {% block title %}
     Bitcoin Price Chart
 {% endblock title %}
 
 {% block content %}
-<div class="col-md-6 col-auto">
-  <div class="card">
-    
 
-      <form action="" method='POST'>
+      <!-- error with selected dates  -->
+      {% if wrong_input %}
+      <div class="alert alert-warning" role="alert">
+          {{wrong_input}}
+      </div>
+      {% endif %}
 
+      <!-- form to filter dates on chart -->
+      <form id="myForm" action="" method='POST'>
         {% csrf_token %}
         {{search_form| crispy}}
-
-        <button type="submit" class="btn btn-primary mt-3">Render</button>
+        <button type="submit" class="btn btn-primary mt-3"> Render</button>
       </form>
 
-      <div class="card-header">
-        <h2 class="text-center">Bitcoin price change over *** to ***</h2>
-      </div>
-      {% if price is None %}
+      <!-- If no date selection has been made yet; display all the dates in the chart upon page load-->
+      {% if price is None %}  
+        <h2 class="text-center">Bitcoin price change over 10 days</h2>
           {% for date,price in prices.bpi.items %}
           <input type="hidden" class="date-item" value="{{date}}">
           <input type="hidden" class="price-item" value="{{price}}">
           {% endfor %}
       {%else%}
+          <h2 class="text-center">Bitcoin price change over {{length}} days</h2>
+          <!-- Filter the chart with the selected dates -->
           {% for date,price in price.items %}
             <input type="hidden" class="date-item" value="{{date}}">
             <input type="hidden" class="price-item" value="{{price}}">
           {% endfor %}
       {% endif %}
 
-      <canvas id="myChart" width="400" height="400">
-      
-      </canvas>
-
-  </div>
-</div>
+      <!-- Provide point where the chart will be displayed -->
+      <canvas id="myChart" width="400" height="400"> </canvas>
 
 {% endblock content %}
 
 {% block script %}
-<script src="{% static 'chart.js' %}"></script>
+<!-- bootstrap javascript file -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+<!-- Chart javascript file -->
+<script src="{% static 'js/chart.js' %}"></script>
 {% endblock script %}
