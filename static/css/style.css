@@ -30,4 +30,9 @@ input{
         width: 100%;
     }
 }
+@media (max-width: 991px) {
+        .btn{
+            margin-top: 25px !important;
+    }
+}
 
