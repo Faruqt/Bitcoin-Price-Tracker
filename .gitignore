@@ -1,0 +1,27 @@
+# Python
+*.py[cod]
+*.$py.class
+
+# VS Code
+*.vscode
+**/.vscode/
+
+# virtual environment
+.env/
+env/
+/.env
+
+# Django
+*.log
+*.pot
+*.pyc
+*__pycache__
+# *media
+*.DS_Store
+
+# Backup Files
+*.bak
+
+#static files
+DJANGO-TODO-APP/staticfiles
+./staticfiles
