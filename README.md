@@ -1,7 +1,7 @@
 # CONSUMING COINDESK'S API FOR BITCOIN PRICE CHANGE DATA
 
-Below is a screenshot of the data rendered in a line chart
-<br>
+## Tools Used
+Django, Javascript and ChartJs
 
 ## Code Usage
 - Clone the repository
@@ -25,7 +25,9 @@ Below is a screenshot of the data rendered in a line chart
   ```shell
        python3 manage.py runserver
  ```
-#Preview
+## Preview
+Below is a screenshot of the data rendered in a line chart
+<br>
 <img src="./static/images/Screenshot.png"> 
 
 
