@@ -17,17 +17,23 @@
         {% csrf_token %}
         {{search_form| crispy}}
 
-        <button type="submit" class="btn btn-primary mt-3">search</button>
+        <button type="submit" class="btn btn-primary mt-3">Render</button>
       </form>
 
       <div class="card-header">
         <h2 class="text-center">Bitcoin price change over *** to ***</h2>
       </div>
-
-      {% for date,price in price.items %}
-      <input type="hidden" class="date-item" value="{{date}}">
-      <input type="hidden" class="price-item" value="{{price}}">
-      {% endfor %}
+      {% if price is None %}
+          {% for date,price in prices.bpi.items %}
+          <input type="hidden" class="date-item" value="{{date}}">
+          <input type="hidden" class="price-item" value="{{price}}">
+          {% endfor %}
+      {%else%}
+          {% for date,price in price.items %}
+            <input type="hidden" class="date-item" value="{{date}}">
+            <input type="hidden" class="price-item" value="{{price}}">
+          {% endfor %}
+      {% endif %}
 
       <canvas id="myChart" width="400" height="400">
       
