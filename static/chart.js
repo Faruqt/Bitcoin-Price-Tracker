@@ -1,15 +1,15 @@
-var items = document.getElementsByClassName('list-item')
+var dates = document.getElementsByClassName('date-item')
+var prices = document.getElementsByClassName('price-item')
+
 //convert html collection to array
-const bitcoin=[]
 const date=[]
 const price=[]
-var j=0
-var k=1
-for (let i = 0; i < items.length; i++) {  //iterate over the html collection retrieved from the html
-            bitcoin[i] = items[i].innerHTML //get the inner html of each of the html collection
-            bitcoin[i] = bitcoin[i].split(":"); //split with the ":" seperator to get both the dates and prices seperately
-            date[i] = bitcoin[i][j] // get the dates data from the bitcoin array using index of '0' and append to date array
-            price[i] = bitcoin[i][k]  // get the prices data from the bitcoin array using index of '1' and append to price array
+for (let i = 0; i < dates.length; i++) {  //iterate over the html collection (hidden input) retrieved from the html
+            date[i] = dates[i].value //get the value(date) of each of the html collection (hidden input)
+      }
+
+for (let j = 0; j < prices.length; j++) {  //iterate over the html collection (hidden input) retrieved from the html
+            price[j] = prices[j].value //get the value(prices) of each of the html collection (hidden input)
       }
 
 // Chart js code
