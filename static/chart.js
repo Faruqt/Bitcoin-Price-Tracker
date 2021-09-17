@@ -1,11 +1,27 @@
+var items = document.getElementsByClassName('list-item')
+//convert html collection to array
+const bitcoin=[]
+const date=[]
+const price=[]
+var j=0
+var k=1
+for (let i = 0; i < items.length; i++) {  //iterate over the html collection retrieved from the html
+            bitcoin[i] = items[i].innerHTML //get the inner html of each of the html collection
+            bitcoin[i] = bitcoin[i].split(":"); //split with the ":" seperator to get both the dates and prices seperately
+            date[i] = bitcoin[i][j] // get the dates data from the bitcoin array using index of '0' and append to date array
+            price[i] = bitcoin[i][k]  // get the prices data from the bitcoin array using index of '1' and append to price array
+      }
+console.log(price)
+
+// Chart js code
 var ctx = document.getElementById('myChart').getContext('2d');
 var myChart = new Chart(ctx, {
-    type: 'bar',
+    type: 'line',
     data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        labels: date, //make the values of the date array the labels for the bar chart
         datasets: [{
             label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
+            data: price,  //make the values of the price array the data for the bar chart
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
@@ -22,7 +38,7 @@ var myChart = new Chart(ctx, {
                 'rgba(153, 102, 255, 1)',
                 'rgba(255, 159, 64, 1)'
             ],
-            borderWidth: 1
+            borderWidth: 3
         }]
     },
     options: {
