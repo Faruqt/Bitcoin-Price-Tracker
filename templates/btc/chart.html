@@ -15,12 +15,19 @@
       </div>
       {% endif %}
 
-      <!-- form to filter dates on chart -->
-      <form id="myForm" action="" method='POST'>
-        {% csrf_token %}
-        {{search_form| crispy}}
-        <button type="submit" class="btn btn-primary mt-3"> Render</button>
-      </form>
+      <div class="row">
+        <!-- form to filter dates on chart -->
+        <form id="myForm" action="" method='POST'>
+          {% csrf_token %}
+          <div class="d-flex flex-nowrap cover">
+            {{search_form| crispy}} <!-- render form with crispy forms -->
+          <div class="">
+            <button type="submit" class=" order-2 btn btn-primary mt-3"> Render</button>
+          </div>
+          
+          </div>
+        </form>     
+      </div>
 
       <!-- If no date selection has been made yet; display all the dates in the chart upon page load-->
       {% if price is None %}  
