@@ -11,7 +11,6 @@ for (let i = 0; i < items.length; i++) {  //iterate over the html collection ret
             date[i] = bitcoin[i][j] // get the dates data from the bitcoin array using index of '0' and append to date array
             price[i] = bitcoin[i][k]  // get the prices data from the bitcoin array using index of '1' and append to price array
       }
-console.log(price)
 
 // Chart js code
 var ctx = document.getElementById('myChart').getContext('2d');
@@ -20,7 +19,7 @@ var myChart = new Chart(ctx, {
     data: {
         labels: date, //make the values of the date array the labels for the bar chart
         datasets: [{
-            label: '# of Votes',
+            label: 'Price fluctuation',
             data: price,  //make the values of the price array the data for the bar chart
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
@@ -42,9 +41,27 @@ var myChart = new Chart(ctx, {
         }]
     },
     options: {
+        responsive: true,
+        plugins: {
+          title: {
+            display: true,
+            text: 'Bitcoin Price Change'
+          },
+        },
         scales: {
+            x: {
+                display: true,
+                title: {
+                  display: true,
+                  text: 'Date'
+                }
+              },
             y: {
-                beginAtZero: true
+                display: true,
+                title: {
+                  display: true,
+                  text: 'Price'
+                }
             }
         }
     }
