@@ -3,7 +3,7 @@
 Below is a screenshot of the data rendered in a line chart
 <br>
 
-Base page: <img src="./static/Screenshot.png"> 
+Base page: <img src="./static/images/Screenshot.png"> 
 
 
 
