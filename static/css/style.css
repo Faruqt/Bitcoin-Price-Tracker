@@ -21,6 +21,10 @@ input{
 .btn{
     margin-top: 0 !important;
 }
+.chart-container{
+    width: 100% !important;
+}
+
 @media (max-width: 760px) {
     .form-control{
         width: 100%;
