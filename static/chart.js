@@ -60,7 +60,7 @@ var myChart = new Chart(ctx, {
                 display: true,
                 title: {
                   display: true,
-                  text: 'Price $'
+                  text: 'Price in USD$'
                 }
             }
         }
