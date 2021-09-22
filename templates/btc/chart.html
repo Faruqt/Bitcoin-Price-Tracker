@@ -30,6 +30,7 @@
       </div>
 
       <!-- Filter the chart with the selected dates -->
+        <h4 class="text-center">Bitcoin price change from {{date_from}} to {{date_to}}</h4>
           {% for date,price in price.items %}
             <input type="hidden" class="date-item" value="{{date}}">
             <input type="hidden" class="price-item" value="{{price}}">
