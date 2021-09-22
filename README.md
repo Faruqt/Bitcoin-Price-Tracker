@@ -21,6 +21,10 @@ Django, Javascript and ChartJs
   ```shell
        python3 manage.py makemigrations
  ```
+  -Migrate changes
+  ```shell
+       python3 manage.py migrate
+ ```
   -Run the following command to run the code in development mode
   ```shell
        python3 manage.py runserver
