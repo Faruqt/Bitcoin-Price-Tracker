@@ -12,12 +12,10 @@ def chart(request):
 
     bitcoin_price= makeDefaultApiCall(date_from, date_to) #use the 10days period obtained from the function above to get dafualt 10days data
 
-    from_date, to_date = getUserDateView(request) #if request method is 'post', get date range supplied by user and use it for the api call
+    from_date, to_date = getUserDateView(request) #if request method is 'post', validate the form and get date range supplied by user and use it for the api call
     
-    print(from_date)
-    print(to_date)
-    if from_date is not None and to_date is not None:
-        bitcoin_price, date_from, date_to, wrong_input= userBtcDataChart(from_date, to_date, wrong_input) 
+    if from_date is not None and to_date is not None:   #check if data was supplied by the user
+        bitcoin_price, date_from, date_to, wrong_input= userBtcDataChart(from_date, to_date, wrong_input) #if there is data supplied my the user via the form, proceed to make the api call and retrieve the required data
 
     search_form= PriceSearchForm() #reset form data before passing everytime the page loads
     context = {
@@ -30,17 +28,19 @@ def chart(request):
 
     return render(request, "btc/chart.html", context)
 
+#function to get the current and today-10days dates respectively
 def getCurrentDateView():
     datetime_today = date.today() #get current date
     date_today = str(datetime_today) #convert datetime class to string
     date_10daysago = str(datetime_today - timedelta(days=10)) #get date of today -10 days
 
-    #assign date from and date to for chart template heading 
+    #assign 'date from' and 'date to' for chart template heading 
     date_from = date_10daysago 
     date_to = date_today
 
     return date_from,date_to
 
+#function to make the api get call and retrieve the default 10days api data.
 def makeDefaultApiCall(date_from, date_to):
     api= 'https://api.coindesk.com/v1/bpi/historical/close.json?start=' + date_from + '&end=' + date_to + '&index=[USD]' 
     try:
@@ -52,11 +52,12 @@ def makeDefaultApiCall(date_from, date_to):
         raise ConnectionError(errc)
     except requests.exceptions.Timeout as errt:     #raise error if the request gets timed out without receiving a single byte
         raise TimeoutError(errt)
-    except requests.exceptions.HTTPError as err:       #raise a general error if the above named errors are not triggered 
+    except requests.exceptions.HTTPError as err:    #raise a general error if the above named errors are not triggered 
         raise SystemExit(err)
 
     return default_btc_price_range
 
+#function to confirm if valid date ranges have been supplied by the user.
 def getUserDateView(request):
     date_from = None
     date_to = None
@@ -64,12 +65,11 @@ def getUserDateView(request):
     if request.method == 'POST': 
         if search_form.is_valid():  #Confirm if valid data was received from the form
             date_from = request.POST.get('date_from') #extract input 1 from submitted data
-            date_to = request.POST.get('date_to') #extract input 1 from submitted data
+            date_to = request.POST.get('date_to') #extract input 2 from submitted data
 
     return date_from,date_to
 
 def userBtcDataChart(date_from, date_to, wrong_input):
-    # requested_btc_price_range= None
     from_date= None
     to_date= None
 
