@@ -10,14 +10,13 @@ def chart(request):
 
     date_from, date_to = getCurrentDateView() #get the dates for present day and present day - 10 days 
 
-    bitcoin_price= makeDefaultApiCall(date_from, date_to) #use the 10days period obtained from the function above to get dafualt 10days data
+    bitcoin_price,search_form= makeDefaultApiCall(date_from, date_to) #use the 10days period obtained from the function above to get dafualt 10days data
 
-    from_date, to_date = getUserDateView(request) #if request method is 'post', validate the form and get date range supplied by user and use it for the api call
+    from_date, to_date, search_form = getUserDateView(request) #if request method is 'post', validate the form and get date range supplied by user and use it for the api call
     
     if from_date is not None and to_date is not None:   #check if data was supplied by the user
         bitcoin_price, date_from, date_to, wrong_input= userBtcDataChart(from_date, to_date, wrong_input) #if there is data supplied my the user via the form, proceed to make the api call and retrieve the required data
 
-    search_form= PriceSearchForm() #reset form data before passing everytime the page loads
     context = {
         'search_form': search_form,
         'price': bitcoin_price,
@@ -42,6 +41,10 @@ def getCurrentDateView():
 
 #function to make the api get call and retrieve the default 10days api data.
 def makeDefaultApiCall(date_from, date_to):
+    initial_data={'date_from':date_from, 
+                 'date_to':date_to,
+    }
+    search_form_default= PriceSearchForm(initial=initial_data)
     api= 'https://api.coindesk.com/v1/bpi/historical/close.json?start=' + date_from + '&end=' + date_to + '&index=[USD]' 
     try:
         response = requests.get(api, timeout=2) #get api response data from coindesk based on date range supplied by user
@@ -55,7 +58,7 @@ def makeDefaultApiCall(date_from, date_to):
     except requests.exceptions.HTTPError as err:    #raise a general error if the above named errors are not triggered 
         raise SystemExit(err)
 
-    return default_btc_price_range
+    return default_btc_price_range,search_form_default
 
 #function to confirm if valid date ranges have been supplied by the user.
 def getUserDateView(request):
@@ -66,10 +69,15 @@ def getUserDateView(request):
         if search_form.is_valid():  #Confirm if valid data was received from the form
             date_from = request.POST.get('date_from') #extract input 1 from submitted data
             date_to = request.POST.get('date_to') #extract input 2 from submitted data
+        
+            initial_data={'date_from':date_from, 
+                        'date_to':date_to,
+            }
+            search_form_current= PriceSearchForm(initial=initial_data)
         else:
             raise Http404("Invalid input")
 
-    return date_from,date_to
+    return date_from,date_to,search_form_current
 
 def userBtcDataChart(date_from, date_to, wrong_input):
     from_date= None
