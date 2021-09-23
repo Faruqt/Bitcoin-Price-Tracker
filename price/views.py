@@ -68,3 +68,29 @@ def getUserDateView(request):
 
     return date_from,date_to
 
+def userBtcDataChart(date_from, date_to, wrong_input):
+    # requested_btc_price_range= None
+    from_date= None
+    to_date= None
+
+    api= 'https://api.coindesk.com/v1/bpi/historical/close.json?start=' + date_from + '&end=' + date_to + '&index=[USD]' #use the 10days period obtained above to get dafualt 10days value
+    if date_to > date_from:     #confirm that input2 is greater than input 1
+        try:
+                response = requests.get(api, timeout=1) #get api response data from coindesk based on date range supplied by user
+                response.raise_for_status()        #raise error if HTTP request returned an unsuccessful status code.
+                response = requests.get(api) #get api response data from coindesk based on date range supplied by user
+                prices = response.json() #convert response to json format
+                requested_btc_price_range=prices.get("bpi") #filter prices based on "bpi" values only
+                from_date= date_from
+                to_date= date_to
+        except requests.exceptions.ConnectionError as errc:  #raise error if connection fails
+            raise ConnectionError(errc)
+        except requests.exceptions.Timeout as errt:     #raise error if the request gets timed out without receiving a single byte
+            raise TimeoutError(errt)
+        except requests.exceptions.HTTPError as err:       #raise a general error if the above named errors are not triggered 
+            raise SystemExit(err)
+
+    else:
+        wrong_input = 'Wrong date input selection: date from cant be greater than date to, please try again' #print out an error message if the user chooses a date that is greater than input1's date 
+
+    return requested_btc_price_range, from_date, to_date , wrong_input
