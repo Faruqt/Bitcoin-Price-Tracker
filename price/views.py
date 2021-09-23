@@ -66,6 +66,8 @@ def getUserDateView(request):
         if search_form.is_valid():  #Confirm if valid data was received from the form
             date_from = request.POST.get('date_from') #extract input 1 from submitted data
             date_to = request.POST.get('date_to') #extract input 2 from submitted data
+        else:
+            raise Http404("Invalid input")
 
     return date_from,date_to
 
