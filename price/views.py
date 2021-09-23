@@ -72,6 +72,7 @@ def getUserDateView(request):
 def userBtcDataChart(date_from, date_to, wrong_input):
     from_date= None
     to_date= None
+    requested_btc_price_range= None
 
     api= 'https://api.coindesk.com/v1/bpi/historical/close.json?start=' + date_from + '&end=' + date_to + '&index=[USD]' #use the 10days period obtained above to get dafualt 10days value
     if date_to > date_from:     #confirm that input2 is greater than input 1
