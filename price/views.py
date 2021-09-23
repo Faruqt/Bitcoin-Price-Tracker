@@ -44,7 +44,7 @@ def getCurrentDateView():
 def makeDefaultApiCall(date_from, date_to):
     api= 'https://api.coindesk.com/v1/bpi/historical/close.json?start=' + date_from + '&end=' + date_to + '&index=[USD]' 
     try:
-        response = requests.get(api, timeout=1) #get api response data from coindesk based on date range supplied by user
+        response = requests.get(api, timeout=2) #get api response data from coindesk based on date range supplied by user
         response.raise_for_status()              #raise error if HTTP request returned an unsuccessful status code.
         prices = response.json() #convert response to json format
         default_btc_price_range=prices.get("bpi") #filter prices based on "bpi" values only
@@ -79,7 +79,7 @@ def userBtcDataChart(date_from, date_to, wrong_input):
     api= 'https://api.coindesk.com/v1/bpi/historical/close.json?start=' + date_from + '&end=' + date_to + '&index=[USD]' #use the 10days period obtained above to get dafualt 10days value
     if date_to > date_from:     #confirm that input2 is greater than input 1
         try:
-                response = requests.get(api, timeout=1) #get api response data from coindesk based on date range supplied by user
+                response = requests.get(api, timeout=2) #get api response data from coindesk based on date range supplied by user
                 response.raise_for_status()        #raise error if HTTP request returned an unsuccessful status code.
                 response = requests.get(api) #get api response data from coindesk based on date range supplied by user
                 prices = response.json() #convert response to json format
