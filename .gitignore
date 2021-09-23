@@ -26,5 +26,5 @@ env/
 *.bak
 
 #static files
-DJANGO-TODO-APP/staticfiles
+BITCOIN-PRICE/staticfiles
 ./staticfiles
