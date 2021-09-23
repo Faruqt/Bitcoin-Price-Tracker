@@ -41,3 +41,19 @@ def getCurrentDateView():
 
     return date_from,date_to
 
+def makeDefaultApiCall(date_from, date_to):
+    api= 'https://api.coindesk.com/v1/bpi/historical/close.json?start=' + date_from + '&end=' + date_to + '&index=[USD]' 
+    try:
+        response = requests.get(api, timeout=1) #get api response data from coindesk based on date range supplied by user
+        response.raise_for_status()              #raise error if HTTP request returned an unsuccessful status code.
+        prices = response.json() #convert response to json format
+        default_btc_price_range=prices.get("bpi") #filter prices based on "bpi" values only
+    except requests.exceptions.ConnectionError as errc:  #raise error if connection fails
+        raise ConnectionError(errc)
+    except requests.exceptions.Timeout as errt:     #raise error if the request gets timed out without receiving a single byte
+        raise TimeoutError(errt)
+    except requests.exceptions.HTTPError as err:       #raise a general error if the above named errors are not triggered 
+        raise SystemExit(err)
+
+    return default_btc_price_range
+
