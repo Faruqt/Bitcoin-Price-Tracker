@@ -13,8 +13,8 @@ for (let j = 0; j < prices.length; j++) {  //iterate over the html collection (h
       }
 
 // Chart js code
-var ctx = document.getElementById('myChart').getContext('2d');
-var myChart = new Chart(ctx, {
+var context = document.getElementById('btcChart').getContext('2d');
+var btcChart = new Chart(context, {
     type: 'line',
     data: {
         labels: date, //make the values of the date array the labels for the bar chart
