@@ -3,7 +3,7 @@ from datetime import date, timedelta
 from .forms import PriceSearchForm
 
 #function to get the current and today-10days dates respectively
-class getApiService():
+class getDateService():
     def getCurrentDateView(self):
         datetime_today = date.today() #get current date
         date_today = str(datetime_today) #convert datetime class to string
@@ -16,7 +16,8 @@ class getApiService():
         return date_from,date_to
 
     #function to make the api get call and retrieve the default 10days api data.
-    def makeDefaultApiCall(self, date_from, date_to):
+class getDefaultData():
+    def makeDefaultApiView(self, date_from, date_to):
         initial_data={'date_from':date_from,  #set initial 10 days date range as default input
                     'date_to':date_to,
         }
@@ -36,22 +37,8 @@ class getApiService():
 
         return default_btc_price_range,search_form_default
 
-    #function to confirm if valid date ranges have been supplied by the user.
-    def getUserDateView(self, request):
-        date_from = None
-        date_to = None
-        search_form= PriceSearchForm(request.POST or None) #get post request from the front end
-        if request.method == 'POST': 
-            if search_form.is_valid():  #Confirm if valid data was received from the form
-                date_from = request.POST.get('date_from') #extract input 1 from submitted data
-                date_to = request.POST.get('date_to') #extract input 2 from submitted data
-            
-            else:
-                raise Http404("Invalid input")
-
-        return date_from,date_to
-
-    def userBtcDataChart(self, date_from, date_to, wrong_input):
+class getUserInputData():
+    def userBtcDataView(self, date_from, date_to, wrong_input):
         from_date= None
         to_date= None
         requested_btc_price_range= None
