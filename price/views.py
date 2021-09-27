@@ -1,7 +1,7 @@
 import requests
 from django.shortcuts import render
 from .forms import PriceSearchForm
-from .services import getCurrentDateView,getDefaultData,getUserInputDateRange,outOfRange #import business logic from services.py layer
+from .services import getDateService,getDefaultData,getUserInputDateRange,outOfRange #import business logic from services.py layer
 from datetime import date, timedelta , datetime
 
 # Create your views here.
@@ -11,12 +11,12 @@ def chart(request):
     range_error = None
 
     # assign the functions imported from services.py to variables to allow for easier use
-    initiateDateGet = getCurrentDateView()
+    initiateDateGet = getDateService()
     initiateDefaultDataGet = getDefaultData()
     initiateUserDateGet = getUserInputDateRange()
     initiateRangeErrorGet = outOfRange()
 
-    date_from, date_to = initiateDateGet #get the dates for present day and present day - 10 days 
+    date_from, date_to = initiateDateGet.getCurrentDateView() #get the dates for present day and present day - 10 days 
 
     search_form= initiateDefaultDataGet.makeDefaultApiView(date_from, date_to) #use the 10days period obtained from the function above to set the default form values
 
@@ -26,17 +26,17 @@ def chart(request):
     
     if from_date is not None and to_date is not None:  #check if data was supplied by the user
         
+        date_today=date_to #assign todays date to date_today variable
+
         date_from, date_to, date_out_of_range, search_form = initiateRangeErrorGet.ooR(from_date, to_date, range_error)  #check if the supplied date range is not greater than 3 months
 
         if date_out_of_range is not None:
             range_error = date_out_of_range  #if date range is more than 3 months, render this error in the html page
             bitcoin_price = None
         else:
-            date_today=date_to
             bitcoin_price, date_from, date_to, wrong_input = getUserInputData(from_date, to_date, date_today, wrong_input) #if there is data supplied my the user via the form, proceed to make the api call and retrieve the required data
             search_form = initiateUserDateGet.userFormInputView(from_date, to_date, date_today ) #make the date range submitted in the form supplied by the user via the form the default input of the form
         
-
     context = {
         'search_form': search_form,
         'price': bitcoin_price,
