@@ -19,7 +19,7 @@ class getDateService():
 class getDefaultData():
     def makeDefaultApiView(self, date_from, date_to):
         PriceFormSearch = initialData(date_from, date_to) #call the initial data function and append the values to the search form
-        search_form_default= PriceFormSearch
+        search_form_default= PriceFormSearch #when the page reloads, set the default form date input values to the dates picked by the user
 
         return search_form_default
 
@@ -27,7 +27,7 @@ class getUserInputDateRange():
     def userFormInputView(self, date_from, date_to, date_today):
         if date_to > date_today:   #if the date to from input is greater than today's date; there wont be data for the extra days, so we change the 'date_to' input back to todays's date
             date_to = date_today
-        PriceFormSearch = initialData(date_from, date_to)
+        PriceFormSearch = initialData(date_from, date_to)  #call the initial data function and append the values to the search form
         search_form_current= PriceFormSearch  #when the page reloads, set the default form date input values to the dates picked by the user
 
         return  search_form_current
@@ -39,8 +39,8 @@ class outOfRange():
         if from_date < (to_date - timedelta(days=90)):   #check if the date range is not greater than 3 months
             range_error= 'No more than 3 months data can be displayed'
 
-        PriceFormSearch = initialData(date_from, date_to)
-        search_form_values= PriceFormSearch
+        PriceFormSearch = initialData(date_from, date_to)  #call the initial data function and append the values to the search form
+        search_form_values= PriceFormSearch #when the page reloads, set the default form date input values to the dates picked by the user
 
         return date_from, date_to, range_error, search_form_values
 
