@@ -21,12 +21,13 @@ def chart(request):
 
     from_date, to_date = getUserDateView(request) #if request method is 'post', validate the form and get date range supplied by user and use it for the api call
     
-    date_out_of_range = initiateRangeErrorGet.ooR(from_date, to_date, range_error)
+    if from_date is not None and to_date is not None:  #check if data was supplied by the user
+        
+        date_out_of_range = initiateRangeErrorGet.ooR(from_date, to_date, range_error)
 
-    if date_out_of_range is not None:
-        range_error = date_out_of_range
-    else:
-        if from_date is not None and to_date is not None:  #check if data was supplied by the user
+        if date_out_of_range is not None:
+            range_error = date_out_of_range
+        else:
             date_today=date_to
             bitcoin_price, date_from, date_to, wrong_input = getUserInputData(from_date, to_date, date_today, wrong_input) #if there is data supplied my the user via the form, proceed to make the api call and retrieve the required data
             search_form = initiateUserDateGet.userFormInputView(from_date, to_date, date_today ) #make the date range submitted in the form supplied by the user via the form the default input of the form
