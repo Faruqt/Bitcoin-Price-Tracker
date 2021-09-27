@@ -15,10 +15,10 @@ class getDateService():
 
         return date_from,date_to
 
-    #function to make the api get call and retrieve the default 10days api data.
+#function to make the api get call and retrieve the default 10days api data.
 class getDefaultData():
     def makeDefaultApiView(self, date_from, date_to):
-        PriceFormSearch = initialData(date_from, date_to)
+        PriceFormSearch = initialData(date_from, date_to) #call the initial data function and append the values to the search form
         search_form_default= PriceFormSearch
 
         return search_form_default
@@ -48,6 +48,6 @@ def initialData(date_from, date_to):  #initial data function to render our date 
     initial_data={'date_from':date_from,   
                     'date_to':date_to,
                 }
-    PriceForm = PriceSearchForm(initial=initial_data)
+    PriceForm = PriceSearchForm(initial=initial_data) #append the date_from and date_to values to the search form
 
     return PriceForm
