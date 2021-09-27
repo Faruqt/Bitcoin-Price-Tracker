@@ -53,7 +53,6 @@ class getUserInputData():
             try:
                     response = requests.get(api, timeout=2) #get api response data from coindesk based on date range supplied by user
                     response.raise_for_status()        #raise error if HTTP request returned an unsuccessful status code.
-                    response = requests.get(api) #get api response data from coindesk based on date range supplied by user
                     prices = response.json() #convert response to json format
                     requested_btc_price_range=prices.get("bpi") #filter prices based on "bpi" values only
                     from_date= date_from
