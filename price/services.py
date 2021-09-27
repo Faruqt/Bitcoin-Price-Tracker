@@ -24,7 +24,7 @@ class getDefaultData():
         search_form_default= PriceSearchForm(initial=initial_data)
         api= 'https://api.coindesk.com/v1/bpi/historical/close.json?start=' + date_from + '&end=' + date_to + '&index=[USD]' 
         try:
-            response = requests.get(api, timeout=5) #get api response data from coindesk based on date range supplied by user
+            response = requests.get(api, timeout=10) #get api response data from coindesk based on date range supplied by user
             response.raise_for_status()              #raise error if HTTP request returned an unsuccessful status code.
             prices = response.json() #convert response to json format
             default_btc_price_range=prices.get("bpi") #filter prices based on "bpi" values only
