@@ -2,7 +2,7 @@ import requests
 from django.shortcuts import render
 from .forms import PriceSearchForm
 from .services import getDateService,getDefaultData,getUserInputDateRange,outOfRange #import business logic from services.py layer
-from datetime import date, timedelta , datetime
+
 
 # Create your views here.
 def chart(request):
