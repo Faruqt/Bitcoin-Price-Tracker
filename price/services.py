@@ -1,5 +1,5 @@
 import requests
-from datetime import date, timedelta
+from datetime import date, timedelta , datetime
 from .forms import PriceSearchForm
 
 #function to get the current and today-10days dates respectively
@@ -24,47 +24,35 @@ class getDefaultData():
         search_form_default= PriceSearchForm(initial=initial_data)
         api= 'https://api.coindesk.com/v1/bpi/historical/close.json?start=' + date_from + '&end=' + date_to + '&index=[USD]' 
         try:
-            response = requests.get(api, timeout=2) #get api response data from coindesk based on date range supplied by user
+            response = requests.get(api, timeout=5) #get api response data from coindesk based on date range supplied by user
             response.raise_for_status()              #raise error if HTTP request returned an unsuccessful status code.
             prices = response.json() #convert response to json format
             default_btc_price_range=prices.get("bpi") #filter prices based on "bpi" values only
         except requests.exceptions.ConnectionError as errc:  #raise error if connection fails
             raise ConnectionError(errc)
-        except requests.exceptions.Timeout as errt:     #raise error if the request gets timed out without receiving a single byte
+        except requests.exceptions.Timeout as errt:     #raise error if the request gets timed out after 10 seconds without receiving a single byte
             raise TimeoutError(errt)
         except requests.exceptions.HTTPError as err:    #raise a general error if the above named errors are not triggered 
             raise SystemExit(err)
 
         return default_btc_price_range,search_form_default
 
-class getUserInputData():
-    def userBtcDataView(self, date_from, date_to, wrong_input):
-        from_date= None
-        to_date= None
-        requested_btc_price_range= None
-
-        initial_data={'date_from':date_from, 
+class getUserInputDateRange():
+    def userFormInputView(self, date_from, date_to, date_today):
+        if date_to > date_today:   #if the date to from input is greater than today's date; there wont be data for the extra days, so we change the 'date_to' input back to todays's date
+            date_to = date_today
+        initial_data={'date_from':date_from,   
                     'date_to':date_to,
                 }
-        search_form_current= PriceSearchForm(initial=initial_data) 
+        search_form_current= PriceSearchForm(initial=initial_data)  #when the page reloads, set the default form date input values to the dates picked by the user
 
-        api= 'https://api.coindesk.com/v1/bpi/historical/close.json?start=' + date_from + '&end=' + date_to + '&index=[USD]' #use the 10days period obtained above to get dafualt 10days value
-        if date_to > date_from:     #confirm that input2 is greater than input 1
-            try:
-                    response = requests.get(api, timeout=2) #get api response data from coindesk based on date range supplied by user
-                    response.raise_for_status()        #raise error if HTTP request returned an unsuccessful status code.
-                    prices = response.json() #convert response to json format
-                    requested_btc_price_range=prices.get("bpi") #filter prices based on "bpi" values only
-                    from_date= date_from
-                    to_date= date_to
-            except requests.exceptions.ConnectionError as errc:  #raise error if connection fails
-                raise ConnectionError(errc)
-            except requests.exceptions.Timeout as errt:     #raise error if the request gets timed out without receiving a single byte
-                raise TimeoutError(errt)
-            except requests.exceptions.HTTPError as err:       #raise a general error if the above named errors are not triggered 
-                raise SystemExit(err)
+        return  search_form_current
+class outOfRange():
+    def ooR(self, date_from, date_to, range_error):
+        from_date= datetime.strptime(date_from, '%Y-%m-%d').date()
+        to_date= datetime.strptime(date_to, '%Y-%m-%d').date()
 
-        else:
-            wrong_input = 'Wrong date input selection: date from cant be greater than date to, please try again' #print out an error message if the user chooses a date that is greater than input1's date 
+        if from_date < (to_date - timedelta(days=90)):   #check if the date range is not greater than 3 months
+            range_error= 'No more than 3 months data can be displayed'
 
-        return requested_btc_price_range, from_date, to_date , wrong_input, search_form_current
+        return range_error
