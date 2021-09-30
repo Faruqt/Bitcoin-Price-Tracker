@@ -10,15 +10,15 @@
 
       <!-- error with selected dates  -->
       {% if wrong_input %}
-        <div class="alert alert-warning" role="alert">
-            {{wrong_input}}
-        </div>
+      <div class="alert alert-warning" role="alert">
+          {{wrong_input}}
+      </div>
       {% endif %}
       <!-- raise error  when selected date range is more than 3 months -->
       {% if range_error %}
-        <div class="alert alert-warning" role="alert">
-            {{range_error}}
-        </div>
+      <div class="alert alert-warning" role="alert">
+          {{range_error}}
+      </div>
       {% endif %}
 
       <div class="row">
@@ -27,10 +27,9 @@
           {% csrf_token %}
           <div class="d-flex flex-nowrap cover">
             {{search_form| crispy}} <!-- render form with crispy forms -->
-          <div class="">
-            <button type="submit" class="order-2 btn btn-primary mt-3"> Render</button>
-          </div>
-          
+            <div class="">
+              <button type="submit" class="order-2 btn btn-primary mt-3"> Render</button>
+            </div>
           </div>
         </form>     
       </div>

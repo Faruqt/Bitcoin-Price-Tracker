@@ -18,9 +18,6 @@ form{
 input{
     cursor: pointer;
 }
-.btn{
-    margin-top: 0 !important;
-}
 .chart-container{
     width: 100% !important;
 }
@@ -30,9 +27,8 @@ input{
         width: 100%;
     }
 }
-@media (max-width: 991px) {
-        .btn{
-            margin-top: 25px !important;
-    }
+@media (max-width: 500px) {
+    .cover{
+        display: block!important
+        }
 }
-
