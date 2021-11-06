@@ -17,16 +17,16 @@ Django, Javascript and ChartJs
  ```shell
        pip install -r requirements.txt
  ```
- -Make migrations
-  ```shell
+ - Make migrations
+```shell
        python3 manage.py makemigrations
  ```
-  -Migrate changes
-  ```shell
+ - Migrate changes
+```shell
        python3 manage.py migrate
  ```
-  -Run the following command to run the code in development mode
-  ```shell
+ - Run the following command to run the code in development mode
+```shell
        python3 manage.py runserver
  ```
 ## Preview
